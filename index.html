@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ecommerce Store</title>
+</head>
+<body>
+
+<h1>Products</h1>
+
+<div id="products"></div>
+
+<script>
+fetch("/api/products")
+.then(res => res.json())
+.then(data => {
+    let html = "";
+    data.forEach(p => {
+        html += `
+        <div>
+            <h3>${p.name}</h3>
+            <p>Price: ${p.price}</p>
+            <button onclick="addToCart(${p.id})">Add to Cart</button>
+        </div>`;
+    });
+    document.getElementById("products").innerHTML = html;
+});
+
+function addToCart(id){
+    fetch("/api/cart/add", {
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body: JSON.stringify({
+            cart_id: 1,
+            product_id: id,
+            quantity: 1
+        })
+    })
+    .then(res => res.json())
+    .then(data => alert(data.message));
+}
+</script>
+
+</body>
+</html>

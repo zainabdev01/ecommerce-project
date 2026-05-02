@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cart</title>
+</head>
+<body>
+
+<h1>Your Cart</h1>
+<div id="cart"></div>
+
+<script>
+fetch("/api/cart/1")
+.then(res => res.json())
+.then(data => {
+    let html = "";
+    data.forEach(i => {
+        html += `<p>Product ID: ${i.product_id} | Qty: ${i.quantity}</p>`;
+    });
+    document.getElementById("cart").innerHTML = html;
+});
+</script>
+
+</body>
+</html>

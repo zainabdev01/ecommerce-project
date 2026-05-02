@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cart Page</title>
+</head>
+<body>
+
+<h1>🛒 My Cart</h1>
+
+<a href="/">⬅ Back to Shop</a>
+
+<div id="cart"></div>
+
+<script>
+fetch("/cart/1")
+.then(res => res.json())
+.then(data => {
+    let html = "";
+
+    if(data.length === 0){
+        html = "<h3>Cart is empty 😢</h3>";
+    }
+
+    data.forEach(c => {
+        html += `
+            <div>
+                <h3>${c.product}</h3>
+                <p>Price: ${c.price}</p>
+                <p>Quantity: ${c.quantity}</p>
+            </div>
+        `;
+    });
+
+    document.getElementById("cart").innerHTML = html;
+});
+</script>
+
+</body>
+</html>

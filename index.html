@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ecommerce Store</title>
+</head>
+<body>
+
+<h1>Products</h1>
+
+<button onclick="loadProducts()">Load Products</button>
+
+<ul id="products"></ul>
+
+<script>
+function loadProducts() {
+    fetch("http://127.0.0.1:5000/products")
+    .then(res => res.json())
+    .then(data => {
+        let list = document.getElementById("products");
+        list.innerHTML = "";
+
+        data.forEach(p => {
+            list.innerHTML += `
+                <li>
+                    ${p.name} - Rs ${p.price} - Stock: ${p.stock}
+                </li>
+            `;
+        });
+    });
+}
+</script>
+
+</body>
+</html>

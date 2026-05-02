@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import sqlite3
+import os
 
 app = Flask(__name__)
 CORS(app)
@@ -15,7 +16,7 @@ def get_db():
 
 
 # ----------------------------
-# CREATE TABLES (AUTO INIT)
+# INIT DATABASE
 # ----------------------------
 def init_db():
     conn = get_db()
@@ -70,11 +71,11 @@ init_db()
 # ----------------------------
 @app.route('/')
 def home():
-    return "Ecommerce Backend Running with SQLite 🚀"
+    return "🚀 Ecommerce Backend Running on Render with SQLite!"
 
 
 # ----------------------------
-# USERS API
+# USERS
 # ----------------------------
 @app.route('/users', methods=['GET'])
 def get_users():
@@ -111,11 +112,11 @@ def add_user():
     conn.commit()
     conn.close()
 
-    return jsonify({"message": "User added successfully"})
+    return jsonify({"message": "User added"})
 
 
 # ----------------------------
-# PRODUCTS API
+# PRODUCTS
 # ----------------------------
 @app.route('/products', methods=['GET'])
 def get_products():
@@ -153,11 +154,11 @@ def add_product():
     conn.commit()
     conn.close()
 
-    return jsonify({"message": "Product added successfully"})
+    return jsonify({"message": "Product added"})
 
 
 # ----------------------------
-# CART API
+# CART
 # ----------------------------
 @app.route('/cart/add', methods=['POST'])
 def add_to_cart():
@@ -203,7 +204,8 @@ def view_cart(cart_id):
 
 
 # ----------------------------
-# RUN APP
+# RUN (IMPORTANT FOR RENDER)
 # ----------------------------
-if __name__ == '__main__':
-    app.run(debug=True)
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
